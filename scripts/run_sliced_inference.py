@@ -1,6 +1,6 @@
 import cv2
 import sys
-from sahi.models.yolov8 import Yolov8DetectionModel
+from sahi.models import Yolov8DetectionModel
 from sahi.predict import get_sliced_prediction
 import supervision as sv
 import numpy as np
