@@ -4,3 +4,4 @@ sahi
 torch
 torchvision
 supervision
+ultralytics
