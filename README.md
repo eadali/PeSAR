@@ -7,6 +7,20 @@ base_model:
 pipeline_tag: object-detection
 ---
 
+
+## Third-Party Libraries
+
+This project uses the following open-source libraries:
+
+- **Library A**: Licensed under the MIT License.  
+  Repository: [https://github.com/example/library-a](https://github.com/example/library-a)  
+  License: [LICENSE](licenses/MIT_LICENSE)
+
+- **Library B**: Licensed under the Apache License 2.0.  
+  Repository: [https://github.com/example/library-b](https://github.com/example/library-b)  
+  License: [LICENSE](licenses/APACHE_LICENSE)
+
+
 W.A.L.D.O.
 Whereabouts Ascertainment for Low-lying Detectable Objects 
 ---------------------------------------------------------------------

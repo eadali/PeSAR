@@ -1,7 +1,6 @@
 numpy
 opencv-python
-supervision
 sahi
 torch
 torchvision
-torchaudio
+supervision

@@ -1,41 +1,36 @@
-from torchvision.models.detection import ssdlite320_mobilenet_v3_large
-from torchvision.models.detection import SSDLite320_MobileNet_V3_Large_Weights
 from sahi import AutoDetectionModel
 from sahi.predict import get_sliced_prediction
 import torch
-import torchvision
-from torchvision.models.detection import FasterRCNN_ResNet50_FPN_Weights
+
+WALDO30_PATH = 'data/WALDO30_yolov8n_640x640.pt' #TODO: Take this from here
 
 
-class SSDLite:
-    def __init__(self, overlap_height_ratio=0.2, overlap_width_ratio=0.2, device='cpu'):
+class WALDO30:
+    def __init__(self, path, confidence_threshold=0.8, device='cpu',
+                 overlap_height_ratio=0.2, overlap_width_ratio=0.2):
         self.overlap_heigh_ratio = overlap_height_ratio
         self.overlap_width_ratio = overlap_width_ratio
-        self.slice_height = 320
-        self.slice_width = 320
-        model = ssdlite320_mobilenet_v3_large(weights=SSDLite320_MobileNet_V3_Large_Weights.DEFAULT)
-        # model = torchvision.models.detection.fasterrcnn_resnet50_fpn(
-        #     weights=FasterRCNN_ResNet50_FPN_Weights.DEFAULT)
+        self.slice_height = 640
+        self.slice_width = 640
 
         self.detection_model = AutoDetectionModel.from_pretrained(
-            model_type='torchvision',
-            model=model,
-            confidence_threshold=0.5,
+            model_type='yolov8',
+            model_path=path,
+            confidence_threshold=confidence_threshold,
             image_size=640,
-            device=device,  # or "cuda:0"
+            device=device,
             load_at_init=True,
         )
 
-    def __call__(self, x):
+    def __call__(self, frame):
         result = get_sliced_prediction(
-            x,
+            frame,
             self.detection_model,
             slice_height=self.slice_height,
             slice_width=self.slice_width,
             overlap_height_ratio=self.overlap_heigh_ratio,
             overlap_width_ratio=self.overlap_width_ratio,
         )
-        print('here')
         boxes = []
         labels = []
         scores = []
@@ -57,4 +52,13 @@ class SSDLite:
             'labels': labels,
             'scores': scores
         }]
-        return result
+
+
+def build(args):
+    detector = WALDO30(path='data/WALDO30_yolov8n_640x640.pt',
+                       confidence_threshold=args.confidence_threshold,
+                       device=args.device,
+                       overlap_height_ratio=args.overlap_height_ratio,
+                       overlap_width_ratio=args.overlap_width_ratio)
+
+    return detector
