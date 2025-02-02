@@ -1,4 +1,0 @@
-/data/image_dense_example.png filter=lfs diff=lfs merge=lfs -text
-/data/video_dense_example.mp4 filter=lfs diff=lfs merge=lfs -text
-/data/image_sparse_example.png filter=lfs diff=lfs merge=lfs -text
-/data/video_sparse_example.mp4 filter=lfs diff=lfs merge=lfs -text
