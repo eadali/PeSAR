@@ -1,1 +1,1 @@
-from .pipeline import build as build_pipeline
+from .model import build as build_model
