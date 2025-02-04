@@ -1,6 +1,6 @@
 # Aerial Object Detection
 This repository contains a Python-based aerial object detection pipeline. It supports both image and video inputs, and leverages a custom model pipeline to detect objects in aerial imagery. The project uses OpenCV for image/video processing and `supervision` for annotation and visualization.    
-![Alt Text](data/output.png)
+![Alt Text](data/output.gif)
 
 
 ## Installation
