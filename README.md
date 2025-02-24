@@ -18,12 +18,12 @@ This repository contains a Python-based aerial object detection pipeline. It sup
 
 2. Install the required dependencies:
 ```bash
-  pip install -r requirements.txt
+  pip3 install -r requirements.txt
 ```
 
 3. (Optional) If you want to use GPU acceleration, ensure you have the correct version of PyTorch installed with CUDA support. You can install it using:
 ```bash
-  pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+  pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu118
 ```
 
 
@@ -32,10 +32,10 @@ This repository contains a Python-based aerial object detection pipeline. It sup
 To process an image or video, use the following commands:
 ```bash
   # Process an image
-  python demo.py --image-input data/image_dense_example.png 
+  python3 demo.py --image-input data/image_dense_example.png 
   
   # Process an video
-  python demo.py --video-input data/video_dense_example.mp4 --tracker bytetrack
+  python3 demo.py --video-input data/video_dense_example.mp4 --tracker bytetrack
 ```
 
 ### Command-Line Arguments
