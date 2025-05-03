@@ -1,31 +1,40 @@
-# Aerial Object Detection
-This repository contains a Python-based aerial object detection pipeline. It supports both image and video inputs, and leverages a custom model pipeline to detect objects in aerial imagery. The project uses OpenCV for image/video processing and `supervision` for annotation and visualization.    
-![Alt Text](data/output.gif)
+# PeSAR: Perception for Search and Rescue  
+🛸 *AI-powered visual detection system for aerial search operations*  
 
+![PeSAR Demo](data/demo.gif)  
 
-## Installation
-### Prerequisites
-- Python 3.8 or higher
-- CUDA (optional, for GPU support)
+PeSAR is a computer vision system designed to detect objects and persons of interest in aerial footage. Optimized for search and rescue missions, it processes visual data with high precision in challenging environments.  
 
+**Core Capabilities:**  
+- 🎯 High-accuracy object detection  
+- 🚀 Real-time processing  
+- 📷 Supports images and video streams  
+- 📊 Intelligent annotation and visualization  
 
-### Steps
-1. Clone the repository:
+## 🖥️ Setup & Configuration
+
+### System Requirements
+- **OS**: Linux (Ubuntu 20.04+)
+- **Python**: 3.8+
+- **Hardware**: 
+  - Minimum: 4GB RAM, Intel i5
+  - Recommended: NVIDIA GPU (RTX 2060+), 16GB RAM
+
+### Setup  
+#### Install PyTorch:
 ```bash
-  git clone https://github.com/your-username/aerial-object-detection.git
-  cd aerial-object-detection
+  pip3 install torch torchvision
 ```
 
-2. Install the required dependencies:
 ```bash
-  pip install -r requirements.txt
+  git clone https://github.com/your-username/PeSAR.git
+  cd PeSAR
 ```
 
-3. (Optional) If you want to use GPU acceleration, ensure you have the correct version of PyTorch installed with CUDA support. You can install it using:
 ```bash
-  pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+  python -m venv --system-site-packages pesar-env
+  source pesar-env/bin/activate c
 ```
-
 
 ## Usage
 ### Running the Script

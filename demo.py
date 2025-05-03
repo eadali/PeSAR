@@ -15,6 +15,9 @@ def get_args_parser():
     # Input arguments
     parser.add_argument('--image-input', help='Path to image file')
     parser.add_argument('--video-input', help='Path to video file')
+    # Output arguments
+    parser.add_argument('--image-output', help='Path to save the output image file')
+    parser.add_argument('--video-output', help='Path to save the output video file')
     # Detector arguments
     parser.add_argument('--detector', default='waldo30', type=str, help='Detector model')
     parser.add_argument('--confidence-threshold', default=0.8, type=float, help='Confidence threshold for detections')
@@ -36,30 +39,50 @@ def frame_from_video(video):
             break
 
 
-def process_image(model, image_path):
+def process_image(model, image_path, output_path=None):
     image = cv2.imread(image_path)
     class_id_to_name = model.get_class_mapping()
     estimations = run_on_frame(model, image)
     vis_image = draw_estimations(image, estimations, class_id_to_name)
+
+    if output_path:
+        cv2.imwrite(output_path, vis_image)
+        print(f"Image saved to {output_path}")
+
     cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
     cv2.imshow(WINDOW_NAME, vis_image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
 
-def process_video(model, video_path):
+def process_video(model, video_path, output_path=None):
     video = cv2.VideoCapture(video_path)
     num_frames = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
     frame_gen = frame_from_video(video)
     class_id_to_name = model.get_class_mapping()
 
+    if output_path:
+        frame_width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
+        frame_height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        fps = int(video.get(cv2.CAP_PROP_FPS))
+        fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Codec for .mp4
+        out_video = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
+
     for frame in tqdm.tqdm(frame_gen, total=num_frames):
         estimations = run_on_frame(model, frame)
         vis_frame = draw_estimations(frame, estimations, class_id_to_name)
+
+        if output_path:
+            out_video.write(vis_frame)
+
         cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
         cv2.imshow(WINDOW_NAME, vis_frame)
         if cv2.waitKey(1) == 27:  # ESC key to quit
             break
+
+    if output_path:
+        out_video.release()
+        print(f"Video saved to {output_path}")
 
     video.release()
     cv2.destroyAllWindows()
@@ -68,9 +91,9 @@ def process_video(model, video_path):
 def main(args):
     model = build_model(args)
     if args.image_input:
-        process_image(model, args.image_input)
+        process_image(model, args.image_input, args.image_output)
     elif args.video_input:
-        process_video(model, args.video_input)
+        process_video(model, args.video_input, args.video_output)
     else:
         print("Error: No input provided. Use --image-input or --video-input.")
 
