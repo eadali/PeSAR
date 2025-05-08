@@ -1,6 +1,6 @@
 # PeSAR: Perception for Search and Rescue  
+✈️ *AI-powered visual detection system for aerial search operations*    
 ![Alt Text](data/output.gif)    
-✈️ *AI-powered visual detection system for aerial search operations*  
 
 
 ## Installation
