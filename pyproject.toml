@@ -4,8 +4,16 @@ version = "0.1.0"
 description = "PeSAR: Perception for Aerial Search and Rescue"
 authors = [{ name = "Erkan Adali", email = "erkanadali91@gmail.com" }]
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.7"
 license = { text = "MIT" }
+dependencies = [
+    "torch",
+    "torchvision",
+    "opencv-python-headless",
+    "ultralytics",
+    "supervision",
+    "sahi"
+]
 
 [project.urls]
 "Homepage" = "https://github.com/eadali/PeSAR"
