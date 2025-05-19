@@ -1,4 +1,4 @@
-from .waldo30 import build as build_waldo30
+from .yolo.waldo30 import build as build_waldo30
 from .bytetrack import build as build_bytetrack
 from .dummytrack import build as build_bypasstrack
 
