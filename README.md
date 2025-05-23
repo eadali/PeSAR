@@ -23,7 +23,8 @@
 
 3. (Optional) If you want to use GPU acceleration, ensure you have the correct version of PyTorch installed with CUDA support. You can install it using:
 ```bash
-  pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+  pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu128
+  pip3 install onnxruntime-gpu
 ```
 
 

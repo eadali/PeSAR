@@ -1,5 +1,7 @@
-opencv-python-headless
+torch
+torchvision
 onnxruntime
+opencv-python-headless
 supervision
 sahi
 
