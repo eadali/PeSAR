@@ -5,7 +5,7 @@
 PiSAR is an open-source pipeline designed to streamline aerial search and rescue missions using advanced AI-based visual detection. It enables rapid analysis of aerial imagery and video to assist responders in locating people or objects of interest.
 
 
-![Demo GIF](data/output.gif)    
+![Demo GIF](docs/imgs/demo.gif)    
 
 
 ## Installation
@@ -58,14 +58,11 @@ PiSAR is an open-source pipeline designed to streamline aerial search and rescue
 To process an image, video, or camera stream, use the following commands:
 
 ```bash
-# Process an image
-python3 demo.py config/yolo8n-bytetrack-cpu.yaml --onnx-path downloads/yolo8n-416.onnx --image downloads/forest.jpg
-
-# Process a video
+# Process a video (CPU)
 python3 demo.py config/yolo8n-bytetrack-cpu.yaml --onnx-path downloads/yolo8n-416.onnx --video downloads/forest.mp4
 
-# Use a camera (e.g., camera ID 0)
-python3 demo.py config/yolo8n-bytetrack-cpu.yaml --onnx-path downloads/yolo8n-416.onnx --camid 0
+# Process a video (CUDA/GPU)
+python3 demo.py config/yolo8n-bytetrack-cuda.yaml --onnx-path downloads/yolo8n-416.onnx --video downloads/forest.mp4
 ```
 
 ### Command-Line Arguments
