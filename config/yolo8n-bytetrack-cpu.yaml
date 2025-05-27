@@ -1,0 +1,14 @@
+# YOLOv8n + ByteTrack Configuration
+pipeline: 
+  detector:
+    model: yolov8n
+    categories: ['LightVehicle', 'Person', 'Building', 'UPole', 'Boat', 'Bike', 'Container', 'Truck', 'Gastank', 'Digger', 'Solarpanels', 'Bus']
+    thresholds:
+      confidence: 0.6
+      iou: 0.4
+    slicing:
+      overlap: 0.2
+    device: cpu
+
+  tracker:
+    algorithm: bytetrack

@@ -1,81 +1,86 @@
 import argparse
 import cv2
-import tqdm
-from models import build_model
-from engine import run_on_frame
-from visualization import draw_estimations
+import numpy as np
+from tqdm import tqdm
+from pipeline import build_pipeline
+from util import cfg, load_config, load_onnx_model
+import supervision as sv
+
+WINDOW_NAME = "Aerial Detections"
 
 
-# Constants
-WINDOW_NAME = 'Aerial Detections'
+def get_args():
+    parser = argparse.ArgumentParser(description="Aerial object detection and tracking")
+    parser.add_argument("config", type=str, help="Path to config file")
+    parser.add_argument("--onnx-path", type=str, required=True, help="Path to ONNX model file")
+    input_group = parser.add_mutually_exclusive_group(required=True)
+    input_group.add_argument("--image", type=str, help="Path to image file")
+    input_group.add_argument("--video", type=str, help="Path to video file")
+    input_group.add_argument("--camid", type=int, help="Camera ID for video capture")
+    return parser.parse_args()
 
 
-def get_args_parser():
-    parser = argparse.ArgumentParser('Set aerial object detector', add_help=False)
-    # Input arguments
-    parser.add_argument('--image-input', help='Path to image file')
-    parser.add_argument('--video-input', help='Path to video file')
-    # Detector arguments
-    parser.add_argument('--detector', default='waldo30', type=str, help='Detector model')
-    parser.add_argument('--confidence-threshold', default=0.8, type=float, help='Confidence threshold for detections')
-    parser.add_argument('--overlap-height-ratio', default=0.2, type=float, help='Overlap height ratio')
-    parser.add_argument('--overlap-width-ratio', default=0.2, type=float, help='Overlap width ratio')
-    # Tracker arguments
-    parser.add_argument('--tracker', type=str, help='Tracker type')
-    # Device arguments
-    parser.add_argument('--device', default='cpu', type=str, help='Device to run the model on')
-    return parser
+def frame_generator(source):
+    cap = cv2.VideoCapture(source)
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+        yield frame
+    cap.release()
 
 
-def frame_from_video(video):
-    while video.isOpened():
-        success, frame = video.read()
-        if success:
-            yield frame
+def annotate_frame(frame, detections, class_map):
+    box_annotator = sv.BoxAnnotator(thickness=2)
+    label_annotator = sv.LabelAnnotator(text_scale=0.5, text_thickness=1, text_padding=1)
+    labels = []
+    for class_id, tracker_id in zip(detections.class_id, detections.tracker_id):
+        class_name = class_map.get(class_id, "Unknown")
+        if np.isnan(tracker_id):
+            labels.append(class_name)
         else:
-            break
+            labels.append(f"#{int(tracker_id)} {class_name}")
+    frame = box_annotator.annotate(scene=frame, detections=detections)
+    frame = label_annotator.annotate(scene=frame, detections=detections, labels=labels)
+    return frame
 
 
-def process_image(model, image_path):
-    image = cv2.imread(image_path)
-    class_id_to_name = model.get_class_mapping()
-    estimations = run_on_frame(model, image)
-    vis_image = draw_estimations(image, estimations, class_id_to_name)
-    cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
-    cv2.imshow(WINDOW_NAME, vis_image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+def show_frame(window, frame):
+    cv2.namedWindow(window, cv2.WINDOW_NORMAL)
+    cv2.imshow(window, frame)
+    key = cv2.waitKey(1)
+    # Quit on 'q' or ESC
+    if key in (ord('q'), 27):
+        return False
+    return True
 
 
-def process_video(model, video_path):
-    video = cv2.VideoCapture(video_path)
-    num_frames = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
-    frame_gen = frame_from_video(video)
-    class_id_to_name = model.get_class_mapping()
+def main():
+    args = get_args()
+    load_config(cfg, args.config)
+    pipeline = build_pipeline(cfg.pipeline)
+    load_onnx_model(pipeline.detector, args.onnx_path)  
+    category_mapping = pipeline.detector.get_category_mapping()
 
-    for frame in tqdm.tqdm(frame_gen, total=num_frames):
-        estimations = run_on_frame(model, frame)
-        vis_frame = draw_estimations(frame, estimations, class_id_to_name)
-        cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
-        cv2.imshow(WINDOW_NAME, vis_frame)
-        if cv2.waitKey(1) == 27:  # ESC key to quit
-            break
-
-    video.release()
-    cv2.destroyAllWindows()
-
-
-def main(args):
-    model = build_model(args)
-    if args.image_input:
-        process_image(model, args.image_input)
-    elif args.video_input:
-        process_video(model, args.video_input)
+    if args.image:
+        image = cv2.imread(args.image)
+        if image is None:
+            print(f"Error: Unable to load image {args.image}")
+            return
+        detections = pipeline(image)
+        vis = annotate_frame(image, detections, category_mapping)
+        cv2.imshow(WINDOW_NAME, vis)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
     else:
-        print("Error: No input provided. Use --image-input or --video-input.")
+        source = args.camid if args.camid is not None else args.video
+        for frame in tqdm(frame_generator(source), desc="Processing"):
+            detections = pipeline(frame)
+            vis = annotate_frame(frame, detections, category_mapping)
+            if not show_frame(WINDOW_NAME, vis):
+                break
+        cv2.destroyAllWindows()
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser('Aerial object detection and tracking inference script', parents=[get_args_parser()])
-    args = parser.parse_args()
-    main(args)
+if __name__ == "__main__":
+    main()
