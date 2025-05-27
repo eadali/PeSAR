@@ -1,10 +1,9 @@
 # PiSAR: Pipeline for Aerial Search and Rescue  
 ✈️ *AI-powered visual detection pipeline for aerial search operations*  
+**Try PiSAR online:**  [![PiSAR Space](https://img.shields.io/badge/HuggingFace%20Spaces-PiSAR-blue?logo=huggingface)](https://huggingface.co/spaces/eadali/PiSAR)
 
 PiSAR is an open-source pipeline designed to streamline aerial search and rescue missions using advanced AI-based visual detection. It enables rapid analysis of aerial imagery and video to assist responders in locating people or objects of interest.
 
-**Try PiSAR online:**  
-You can test PiSAR directly in your browser via our [PiSAR Space](https://huggingface.co/spaces/eadali/PiSAR).
 
 ![Demo GIF](data/output.gif)    
 
@@ -53,32 +52,34 @@ You can test PiSAR directly in your browser via our [PiSAR Space](https://huggin
 ---
 
 ## Usage
+
 ### Running the Script
-To process an image or video, use the following commands:
+
+To process an image, video, or camera stream, use the following commands:
+
 ```bash
-  # Process an image
-  python3 demo.py --image-input data/image_dense_example.png 
-  
-  # Process an video
-  python3 demo.py --video-input data/video_dense_example.mp4 --tracker bytetrack
+# Process an image
+python3 demo.py config/yolo8n-bytetrack-cpu.yaml --onnx-path downloads/yolo8n-416.onnx --image downloads/forest.jpg
+
+# Process a video
+python3 demo.py config/yolo8n-bytetrack-cpu.yaml --onnx-path downloads/yolo8n-416.onnx --video downloads/forest.mp4
+
+# Use a camera (e.g., camera ID 0)
+python3 demo.py config/yolo8n-bytetrack-cpu.yaml --onnx-path downloads/yolo8n-416.onnx --camid 0
 ```
 
 ### Command-Line Arguments
-The script supports the following command-line arguments:
-| Argument | Description | Default Value |  
-| ----------------------- | ----------------------------------------------- | --------- |
-| --image-input           | Path to the input image file.                   | None      |
-| --video-input	          | Path to the input video file.	                  | None      |
-| --detector              |	Name of the detector model to use.              | waldo30   |
-| --confidence-threshold  | Confidence threshold for object detection.      | 0.8       |
-| --overlap-height-ratio  |	Overlap height ratio for processing.            | 0.2       |
-| --overlap-width-ratio   |	Overlap width ratio for processing.	            | 0.2       |
-| --tracker               |	Name of the tracker to use (None or bytetrack). | None      |
-| --device	              | Device to run the model on (cpu or cuda).       | cpu       |
 
+| Argument      | Description                              | Required/Default |
+|---------------|------------------------------------------|------------------|
+| config        | Path to the YAML configuration file       | Required         |
+| --onnx-path   | Path to the ONNX model file               | Required         |
+| --image       | Path to the input image file              | Mutually exclusive with --video/--camid |
+| --video       | Path to the input video file              | Mutually exclusive with --image/--camid |
+| --camid       | Camera ID for video capture               | Mutually exclusive with --image/--video  |
+
+**Note:**  
+- You must provide exactly one of `--image`, `--video`, or `--camid`.
+- The `config` argument is a positional argument (no `--config`).
 
 ---
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
