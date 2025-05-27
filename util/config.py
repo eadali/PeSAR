@@ -2,29 +2,14 @@ from .yacs import CfgNode
 
 cfg = CfgNode(new_allowed=True)
 cfg.save_dir = "./"
-# common params for NETWORK
-cfg.model = CfgNode(new_allowed=True)
-cfg.model.arch = CfgNode(new_allowed=True)
-cfg.model.arch.backbone = CfgNode(new_allowed=True)
-cfg.model.arch.fpn = CfgNode(new_allowed=True)
-cfg.model.arch.head = CfgNode(new_allowed=True)
 
-# DATASET related params
-cfg.data = CfgNode(new_allowed=True)
-cfg.data.train = CfgNode(new_allowed=True)
-cfg.data.val = CfgNode(new_allowed=True)
-cfg.device = CfgNode(new_allowed=True)
-cfg.device.precision = 32
-# train
-cfg.schedule = CfgNode(new_allowed=True)
-
-# logger
-cfg.log = CfgNode()
-cfg.log.interval = 50
-
-# testing
-cfg.test = CfgNode()
-# size of images for each device
+# Pipeline configuration
+cfg.pipeline = CfgNode(new_allowed=True)
+cfg.pipeline.detector = CfgNode(new_allowed=True)
+cfg.pipeline.detector.thresholds = CfgNode(new_allowed=True)
+cfg.pipeline.detector.slicing = CfgNode(new_allowed=True)
+# Tracker configuration
+cfg.pipeline.tracker = CfgNode(new_allowed=True)
 
 
 def load_config(cfg, args_cfg):

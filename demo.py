@@ -31,8 +31,8 @@ def frame_generator(source):
 
 
 def annotate_frame(frame, detections, class_map):
-    box_annotator = sv.BoundingBoxAnnotator(thickness=16)
-    label_annotator = sv.LabelAnnotator(text_scale=2, text_thickness=4, text_padding=1)
+    box_annotator = sv.BoxAnnotator(thickness=2)
+    label_annotator = sv.LabelAnnotator(text_scale=0.5, text_thickness=1, text_padding=1)
     labels = []
     for class_id, tracker_id in zip(detections.class_id, detections.tracker_id):
         class_name = class_map.get(class_id, "Unknown")

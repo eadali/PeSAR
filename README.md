@@ -1,32 +1,56 @@
-# PeSAR: Perception for Search and Rescue  
-✈️ *AI-powered visual detection system for aerial search operations*    
-![Alt Text](data/output.gif)    
+# PiSAR: Pipeline for Aerial Search and Rescue  
+✈️ *AI-powered visual detection pipeline for aerial search operations*  
+
+PiSAR is an open-source pipeline designed to streamline aerial search and rescue missions using advanced AI-based visual detection. It enables rapid analysis of aerial imagery and video to assist responders in locating people or objects of interest.
+
+**Try PiSAR online:**  
+You can test PiSAR directly in your browser via our [PiSAR Space](https://huggingface.co/spaces/eadali/PiSAR).
+
+![Demo GIF](data/output.gif)    
 
 
 ## Installation
+
 ### Prerequisites
-- Python 3.8 or higher
-- CUDA (optional, for GPU support)
+- Python 3.8+
+- pip3 (Python package installer)
+- *(Optional)* CUDA-enabled GPU & CUDA Toolkit for GPU acceleration
 
+### Setup
 
-### Steps
-1. Clone the repository:
-```bash
-  git clone https://github.com/your-username/aerial-object-detection.git
-  cd aerial-object-detection
-```
+1. **Clone the repository**
+    ```bash
+    git clone https://github.com/eadali/PiSAR.git
+    cd PiSAR
+    ```
 
-2. Install the required dependencies:
-```bash
-  pip3 install -r requirements.txt
-```
+2. **(Recommended) Create a virtual environment**
+    ```bash
+    python3 -m venv pisar
+    source pisar/bin/activate
+    ```
 
-3. (Optional) If you want to use GPU acceleration, ensure you have the correct version of PyTorch installed with CUDA support. You can install it using:
-```bash
-  pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu128
-  pip3 install onnxruntime-gpu
-```
+3. **Install dependencies**
+    - **CPU only:**
+        ```bash
+        pip3 install -r requirements.txt
+        ```
+    - **GPU (CUDA) support:**
+        ```bash
+        pip3 install -r requirements-cuda.txt
+        ```
 
+4. **(Optional) Install PyTorch with a specific CUDA version**  
+   See [PyTorch's official instructions](https://pytorch.org/get-started/locally/).
+
+5. **Verify installation**
+    ```bash
+    python3 -c "import torch; print(torch.cuda.is_available())"
+    ```
+
+*See `requirements.txt` and `requirements-cuda.txt` for details.*
+
+---
 
 ## Usage
 ### Running the Script
@@ -53,5 +77,8 @@ The script supports the following command-line arguments:
 | --device	              | Device to run the model on (cpu or cuda).       | cpu       |
 
 
+---
+
 ## License
-This project is licensed under the MIT License. See the LICENSE file for details.
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
