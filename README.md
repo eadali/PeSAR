@@ -25,9 +25,9 @@
 ## Installation
 
 ### Prerequisites
-- Python 3.8+
+- Python 3.12+
 - pip3 (Python package installer)
-- *(Optional)* CUDA-enabled GPU & CUDA Toolkit for GPU acceleration
+- *(Optional)* CUDA-enabled GPU
 
 ### Setup
 
@@ -53,10 +53,7 @@
         pip3 install -r requirements-cuda.txt
         ```
 
-4. **(Optional) Install PyTorch with a specific CUDA version**  
-   See [PyTorch's official instructions](https://pytorch.org/get-started/locally/).
-
-5. **Verify installation**
+4. **Verify installation**
     ```bash
     python3 -c "import torch; print(torch.cuda.is_available())"
     ```
@@ -71,11 +68,13 @@
 
 To process an image, video, or camera stream, use the following commands:
 
+#### Process a video (CPU)
 ```bash
-# Process a video (CPU)
 python3 demo.py config/yolo8n-bytetrack-cpu.yaml --onnx-path downloads/yolo8n-416.onnx --video downloads/forest.mp4
+```
 
-# Process a video (CUDA/GPU)
+#### Process a video (CUDA/GPU)
+```bash
 python3 demo.py config/yolo8n-bytetrack-cuda.yaml --onnx-path downloads/yolo8n-416.onnx --video downloads/forest.mp4
 ```
 
@@ -94,3 +93,7 @@ python3 demo.py config/yolo8n-bytetrack-cuda.yaml --onnx-path downloads/yolo8n-4
 - The `config` argument is a positional argument (no `--config`).
 
 ---
+
+## Acknowledgements
+
+Special thanks to the [StephanST](https://huggingface.co/StephanST) for providing the WALDO30 model used in this project.
