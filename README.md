@@ -1,11 +1,21 @@
-# PiSAR: Pipeline for Aerial Search and Rescue  
-✈️ *AI-powered visual detection pipeline for aerial search operations*  
-**Try PiSAR online:**  [![PiSAR Space](https://img.shields.io/badge/HuggingFace%20Spaces-PiSAR-blue?logo=huggingface)](https://huggingface.co/spaces/eadali/PiSAR)
+<p align="center" style="display: flex; align-items: center; justify-content: center;">
+    <img src="docs/imgs/logo.png" alt="PiSAR Logo" height="80" style="vertical-align:middle; margin-right:16px;">
+    <span>
+        <span style="font-size:2em; font-weight:bold;">PiSAR: Pipeline for Aerial Search and Rescue</span><br>
+        <span style="font-size:1em;">AI-powered visual detection pipeline for aerial search operations</span>
+    </span>
+</p>
 
-PiSAR is an open-source pipeline designed to streamline aerial search and rescue missions using advanced AI-based visual detection. It enables rapid analysis of aerial imagery and video to assist responders in locating people or objects of interest.
+<p align="center">
+    <img src="docs/imgs/demo.gif" alt="Demo GIF">
+</p>
 
-
-![Demo GIF](docs/imgs/demo.gif)    
+<p align="center">
+    <strong>Try PiSAR online:</strong><br>
+    <a href="https://huggingface.co/spaces/eadali/PiSAR">
+        <img src="https://img.shields.io/badge/HuggingFace%20Spaces-PiSAR-blue?logo=huggingface" alt="PiSAR Space">
+    </a>
+</p>
 
 
 ## Installation
