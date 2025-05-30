@@ -1,6 +1,6 @@
-<p align="center" style="display: flex; align-items: center; justify-content: center;">
+<p align="center">
     <img src="docs/imgs/logo.png" alt="PiSAR Logo" height="80" style="vertical-align:middle; margin-right:16px;">
-    <span>
+    <span style="display:inline-block; vertical-align:middle; margin-left:16px;">
         <span style="font-size:2em; font-weight:bold;">PiSAR: Pipeline for Aerial Search and Rescue</span><br>
         <span style="font-size:1em;">AI-powered visual detection pipeline for aerial search operations</span>
     </span>
