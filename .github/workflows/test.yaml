@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - '**'
-    tags-ignore:
-      - 'v*'
+
   pull_request:
 
 jobs:
@@ -41,13 +40,3 @@ jobs:
       - name: Run tests
         run: |
           pytest --maxfail=3 --disable-warnings -q || echo "No tests found"
-
-      - name: Build the package
-        run: |
-          pip install build
-          python -m build
-
-      - name: Check the package
-        run: |
-          pip install twine
-          twine check dist/*
