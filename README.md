@@ -4,11 +4,12 @@
       <img src="docs/imgs/logo.png" alt="PiSAR Logo" height="80">
     </td>
     <td>
-      <span style="font-size:2em; font-weight:bold;">PiSAR: Pipeline for Aerial Search and Rescue</span><br>
-      <span style="font-size:1em;">AI-powered visual detection pipeline for aerial search operations</span>
+      <h2><strong>PiSAR: Pipeline for Aerial Search and Rescue</strong></h2>
+      <em>AI-powered visual detection pipeline for aerial search operations</em>
     </td>
   </tr>
 </table>
+
 <p align="center">
     <img src="docs/imgs/demo.gif" alt="Demo GIF">
 </p>
